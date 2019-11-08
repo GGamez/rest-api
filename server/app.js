@@ -2,7 +2,7 @@
 const nodemailer = require('nodemailer');
 
 const bcrypt = require('bcrypt');
-const converter = require('jsonexport')
+const converter = require('./arguments/node_modules/jsonexport')
 const jwt = require('jsonwebtoken');
 const { getAll, getUserData, getMatches, print } = require('./getters/matchHistory');
 
@@ -11,7 +11,7 @@ const Usuario = require('./models/usuario');
 const Tests = require('./models/tests');
 
 require('./config/config');
-const conf = require('../config');
+const conf = require('./config');
 const bodyParser = require('body-parser');
 const argv = require('./arguments/playerArgvs').argv;
 const fs = require('fs')
