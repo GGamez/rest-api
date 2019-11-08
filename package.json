@@ -1,0 +1,38 @@
+{
+    "name": "ggdiggers_lol",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "async": "^3.1.0",
+        "bcrypt": "^3.0.6",
+        "body-parser": "^1.19.0",
+        "cors": "^2.8.5",
+        "csv-express": "^1.2.2",
+        "csvjson": "^5.1.0",
+        "delay": "^4.3.0",
+        "export-from-json": "^1.1.4",
+        "express": "^4.17.1",
+        "greenlock": "^3.0.27",
+        "https": "^1.0.0",
+        "json-2-csv": "^3.5.6",
+        "json2csv": "^4.5.3",
+        "jsonexport": "^2.4.1",
+        "jsonwebtoken": "^8.5.1",
+        "mongoose": "^5.7.3",
+        "mongoose-unique-validator": "^2.0.3",
+        "needle": "^2.4.0",
+        "node-fetch": "^2.6.0",
+        "nodemailer": "^6.3.0",
+        "r-script": "0.0.4",
+        "request": "^2.88.0",
+        "request-promise": "^4.2.4",
+        "sleep": "^6.1.0",
+        "yargs": "^14.0.0"
+    }
+}
