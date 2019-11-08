@@ -42,7 +42,7 @@ const app = express();
 
 //var httpsServer = https.createServer(credentials, app);
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT
 const { verificarToken, verificarMailToken, verificarTokeno, verificarAdmin, verificarSummonerName, isEmailValid } = require('./middlewares/autenticacion')
     // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
