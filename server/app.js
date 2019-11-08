@@ -42,7 +42,7 @@ const app = express();
 
 //var httpsServer = https.createServer(credentials, app);
 
-
+const port = process.env.PORT || 3000
 const { verificarToken, verificarMailToken, verificarTokeno, verificarAdmin, verificarSummonerName, isEmailValid } = require('./middlewares/autenticacion')
     // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -62,8 +62,8 @@ mongoose.connect(process.env.URLDB, { useNewUrlParser: true, useUnifiedTopology:
 
 
 
-app.listen(process.env.PORT, () => {
-    console.log('Escuchando puerto: ', process.env.PORT);
+app.listen(port, () => {
+    console.log('Escuchando puerto: ', port);
 });
 
 app.use(function(req, res, next) {
