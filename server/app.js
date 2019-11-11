@@ -292,7 +292,7 @@ app.post('/login', function(req, res) {
 });
 
 
-app.post('/loggin', function(req, res) {
+app.post('/regist', function(req, res) {
 
 
 
@@ -359,6 +359,56 @@ app.post('/loggin', function(req, res) {
     })
 });
 
+app.post('/loggin', function(req, res) {
+
+
+
+    let body = req.body;
+    console.log(body)
+
+
+
+    //console.log(req.body)
+    Usuario.findOne({ email: body.email }, (err, usuarioDB) => {
+        if (err) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'Usuario incorrecto'
+                },
+                message: 'Usuario incorrecto'
+            });
+        }
+
+        if (!usuarioDB) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'Usuario incorrecto'
+                },
+                message: 'Usuario incorrecto'
+            });
+        }
+
+        if (!bcrypt.compareSync(body.password, usuarioDB.password)) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'Contraseña incorrecta'
+                },
+                message: 'Usuario incorrecto'
+            });
+        }
+
+        res.json({
+            ok: true,
+            usuario: usuarioDB,
+            message: 'user loggin correct',
+            //url: "http://localhost:3000/features",
+        })
+
+    })
+});
 
 app.post('/n-back', function(req, res) {
 
