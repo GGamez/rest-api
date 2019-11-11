@@ -8,8 +8,8 @@ const { getAll, getUserData, getMatches, print } = require('./getters/matchHisto
 
 const mongoose = require('mongoose');
 const Usuario = require('./models/usuario');
-const Tests = require('./models/tests');
-
+const Raven = require('./models/raven');
+const NBack = require('./models/nBack');
 require('./config/config');
 const conf = require('./config');
 const bodyParser = require('body-parser');
@@ -57,13 +57,13 @@ app.use(cors(
 mongoose.connect(process.env.URLDB, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true },
     (err, res) => {
         if (err) throw err;
-        console.log('Base de datos ONLINE')
+        //console.log('Base de datos ONLINE')
     });
 
 
 
 app.listen(port, () => {
-    console.log('Escuchando puerto: ', port);
+    //console.log('Escuchando puerto: ', port);
 });
 
 app.use(function(req, res, next) {
@@ -83,7 +83,7 @@ app.get("/link", [verificarToken], function(req, res) {
 
     stream.on("data", function(d) {
         //res.json(d);
-        console.log(d)
+        //console.log(d)
         sleep.msleep(500)
 
     });
@@ -97,7 +97,7 @@ app.get("/link", [verificarToken], function(req, res) {
 
 app.get('/search/:id', [verificarToken], (req, res) => {
 
-    console.log(req.params.id)
+    //console.log(req.params.id)
     let desde = req.query.desde || 0;
     desde = Number(desde);
 
@@ -141,7 +141,7 @@ app.get('/search/:id', [verificarToken], (req, res) => {
 
 app.get('/search/csv/:id', [verificarToken], (req, res) => {
 
-    console.log(req.params.id)
+    //console.log(req.params.id)
     let desde = req.query.desde || 0;
     desde = Number(desde);
 
@@ -295,25 +295,58 @@ app.post('/n-back', function(req, res) {
 
     let body = req.body;
 
-    let usuario = new Tests({
-
-        exp: body.experiment
-
+    let usuario = new NBack({
+        _id: body.id,
+        exp: body.experiment,
     });
 
-    console.log(req.body)
+    //console.log(req.body)
     usuario.save((err, usuarioDB) => {
         if (err) {
-            return res.status(400).json({
-                ok: false,
-                err
-            });
+            NBack.findByIdAndUpdate(body.id, {
+                user: body.id,
+                exp: body.experiment,
+            }, { new: true, runValidators: true, useFindAndModify: false, context: 'query' }, (err, usuarioDB) => {
+                if (err) {
+                    console.log(err)
+                }
+            })
         }
         res.json({
             ok: true,
         });
     })
 });
+
+
+app.post('/raven', function(req, res) {
+
+    let body = req.body;
+
+    let usuario = new Raven({
+        _id: body.id,
+        exp: body.experiment,
+    });
+
+    //console.log(req.body)
+    usuario.save((err, usuarioDB) => {
+        if (err) {
+            Raven.findByIdAndUpdate(body.id, {
+                user: body.id,
+                exp: body.experiment,
+            }, { new: true, runValidators: true, useFindAndModify: false, context: 'query' }, (err, usuarioDB) => {
+                if (err) {
+                    console.log(err)
+                }
+            })
+        }
+        res.json({
+            ok: true,
+        });
+    })
+});
+
+
 
 app.put('/confirmation', verificarMailToken, function(req, res) {
 
@@ -335,7 +368,7 @@ app.put('/confirmation', verificarMailToken, function(req, res) {
 
 
             let summonerName = req.usuario.nombre
-            console.log(req.usuario.nombre)
+                //console.log(req.usuario.nombre)
             getAll('euw1', summonerName, id)
 
             // .then(resultado => {
@@ -347,7 +380,7 @@ app.put('/confirmation', verificarMailToken, function(req, res) {
 
             // });
             //console.log(id)
-            console.log(req)
+            //console.log(req)
             res.json({
                 ok: true,
                 usuario: usuarioDB
