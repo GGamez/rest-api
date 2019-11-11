@@ -297,8 +297,7 @@ app.post('/n-back', function(req, res) {
 
     let usuario = new Tests({
 
-        exp: body.experiment,
-        body
+        exp: body.experiment
 
     });
 
