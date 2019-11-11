@@ -9,8 +9,9 @@ let rolesValidos = {
 let Schema = mongoose.Schema;
 
 let usuarioSchema = new Schema({
-    nombre: {
+    _id: {
         type: String,
+        unique: true,
         required: [true, 'El nombre es necesario']
     },
     email: {

@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const { getAll, getUserData, getMatches, print } = require('./getters/matchHistory');
 
 const mongoose = require('mongoose');
-const Usuario = require('./models/usuario');
+const Usuario = require('./models/userTest');
 const Raven = require('./models/raven');
 const NBack = require('./models/nBack');
 require('./config/config');
@@ -289,6 +289,30 @@ app.post('/login', function(req, res) {
         //.cookie('token', token, { maxAge: process.env.CADUCIDAD_TOKEN })
         //   .redirect(`http://localhost:3000/features`);
     });
+});
+
+
+app.post('/loggin', function(req, res) {
+
+    let body = req.body;
+
+    let usuario = new Usuario({
+        _id: body.nombre,
+        email: body.email,
+    });
+
+    //console.log(req.body)
+    usuario.save((err, usuarioDB) => {
+        if (err) {
+            return res.status(400).json({
+                ok: false,
+                err
+            });
+        }
+        res.json({
+            ok: true,
+        });
+    })
 });
 
 app.post('/n-back', function(req, res) {
