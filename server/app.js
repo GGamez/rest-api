@@ -302,7 +302,7 @@ app.post('/n-back', function(req, res) {
     });
 
     console.log(req.body)
-    usuario.insert((err, usuarioDB) => {
+    usuario.save((err, usuarioDB) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
