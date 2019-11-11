@@ -294,26 +294,71 @@ app.post('/login', function(req, res) {
 
 app.post('/loggin', function(req, res) {
 
-    let body = req.body;
 
+
+    let body = req.body;
+    console.log(body)
     let usuario = new Usuario({
         _id: body.nombre,
         email: body.email,
+        password: bcrypt.hashSync(body.password, 10),
     });
+
 
     //console.log(req.body)
     usuario.save((err, usuarioDB) => {
         if (err) {
-            return res.status(400).json({
-                ok: false,
-                err
-            });
+            return (Usuario.findOne({ email: body.email }, (err, usuarioDB) => {
+                if (err) {
+                    return res.status(400).json({
+                        ok: false,
+                        err: {
+                            message: 'Usuario incorrecto'
+                        },
+                        message: 'Usuario incorrecto'
+                    });
+                }
+
+                if (!usuarioDB) {
+                    return res.status(400).json({
+                        ok: false,
+                        err: {
+                            message: 'Usuario incorrecto'
+                        },
+                        message: 'Usuario incorrecto'
+                    });
+                }
+
+                if (!bcrypt.compareSync(body.password, usuarioDB.password)) {
+                    return res.status(400).json({
+                        ok: false,
+                        err: {
+                            message: 'Contraseña incorrecta'
+                        },
+                        message: 'Usuario incorrecto'
+                    });
+                }
+
+                res.json({
+                    ok: true,
+                    usuario: usuarioDB,
+                    message: 'user loggin correct',
+                    //url: "http://localhost:3000/features",
+                })
+
+            }))
+
         }
+
         res.json({
             ok: true,
+            usuario: usuarioDB,
         });
+
+
     })
 });
+
 
 app.post('/n-back', function(req, res) {
 

@@ -21,6 +21,7 @@ let userTestSchema = new Schema({
     },
     password: {
         type: String,
+        required: [true, 'La password es necesaria']
     },
 
 });
@@ -29,7 +30,6 @@ userTestSchema.methods.toJSON = function() {
     let user = this;
     let userObject = user.toObject();
     delete userObject.password;
-
     return userObject;
 }
 
