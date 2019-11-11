@@ -12,17 +12,11 @@ let testsSchema = new Schema({
     exp: {
 
     },
-    user: {
-        type: String,
-        unique: true,
 
-    },
-    ess: []
 
 });
 
-testsSchema.plugin(uniqueValidator, { message: '{PATH} debe ser único' });
-// usuarioSchema.methods.toJSON = function() {
+
 //     let user = this;
 //     let userObject = user.toObject();
 //     delete userObject.password;
