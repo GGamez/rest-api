@@ -12,7 +12,7 @@ process.env.FIRST_STEP = process.env.FIRST_STEP || "RGAPI-781fc1e2-dd1b-49bf-83e
 //process.env.URLDB = 'mongodb://localhost:27017/UsersTest';
 process.env.URLDB = 'mongodb+srv://Guillermo:dEABUlxmFhwgR6ke@cluster0-ikvge.mongodb.net/ggdiggersUsers';
 
-process.env.limit = 100;
+process.env.limit = 3;
 
 //process.env.Url = '77.229.95.253';
 process.env.localUrl = 'localhost';

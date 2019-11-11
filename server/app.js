@@ -2,7 +2,7 @@
 const nodemailer = require('nodemailer');
 
 const bcrypt = require('bcrypt');
-const converter = require('./arguments/node_modules/jsonexport')
+const converter = require('jsonexport/lib')
 const jwt = require('jsonwebtoken');
 const { getAll, getUserData, getMatches, print } = require('./getters/matchHistory');
 
@@ -296,9 +296,9 @@ app.post('/n-back', function(req, res) {
     let body = req.body;
 
     let usuario = new Tests({
-        user: body.id,
+
         exp: body.experiment,
-        ess: req.body
+        body
 
     });
 
@@ -322,7 +322,8 @@ app.put('/confirmation', verificarMailToken, function(req, res) {
     let isUpdated = req.usuario.datos;
     //let body = _.pick(req.body, ['estado', 'datos'])
     let body = { estado: true, datos: true };
-    console.log(isUpdated)
+
+
     if (!req.usuario.datos) {
         Usuario.findByIdAndUpdate(id, body, { new: true, runValidators: true, useFindAndModify: false, context: 'query' }, (err, usuarioDB) => {
 
@@ -347,6 +348,7 @@ app.put('/confirmation', verificarMailToken, function(req, res) {
 
             // });
             //console.log(id)
+            console.log(req)
             res.json({
                 ok: true,
                 usuario: usuarioDB

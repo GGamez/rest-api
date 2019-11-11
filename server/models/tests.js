@@ -15,7 +15,7 @@ let testsSchema = new Schema({
     user: {
         type: String,
         unique: true,
-        ref: 'Tests'
+
     },
     ess: []
 
