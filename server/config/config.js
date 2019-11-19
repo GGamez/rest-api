@@ -19,7 +19,7 @@ process.env.localUrl = 'localhost';
 // ======================
 // Vencimiento del token
 // ======================
-process.env.CADUCIDAD_TOKEN = 60 * 60 * 24 * 30;
+process.env.CADUCIDAD_TOKEN = 60 * 60 * 24 * 30 * 3;
 
 
 // ======================

@@ -145,10 +145,11 @@ let verificarSummonerName = (req, res, next) => {
         }
 
         req.usuario = decoded.usuario;
-
+        let id = req.get('_id')
+        console.log(id)
         let usuario = req.usuario;
-        console.log(req.params.id)
-        if (usuario.nombre == req.params.id) {
+        //console.log(req.body)
+        if (usuario._id == id) {
             next();
         } else {
             return res.json({

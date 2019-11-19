@@ -390,6 +390,10 @@ app.post('/loggin', function(req, res) {
             });
         }
 
+        let token = jwt.sign({
+            usuario: usuarioDB
+        }, process.env.SEED, { expiresIn: process.env.CADUCIDAD_TOKEN });
+
         if (!bcrypt.compareSync(body.password, usuarioDB.password)) {
             return res.status(400).json({
                 ok: false,
@@ -405,6 +409,7 @@ app.post('/loggin', function(req, res) {
             usuario: usuarioDB,
             message: 'user loggin correct',
             //url: "http://localhost:3000/features",
+            token
         })
 
     })
@@ -462,6 +467,45 @@ app.post('/raven', function(req, res) {
         res.json({
             ok: true,
         });
+    })
+});
+
+app.get('/n-back-Rsults', [verificarToken, verificarSummonerName], function(req, res) {
+
+    let id = req.get('_id');
+    console.log(id)
+
+
+    NBack.findOne({ _id: id }, (err, usuarioDB) => {
+        if (err) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'Usuario incorrecto'
+                },
+                message: 'Usuario incorrecto'
+            });
+        }
+
+        if (!usuarioDB) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'Usuario incorrecto'
+                },
+                message: 'Usuario incorrecto'
+            });
+        }
+
+
+
+        res.json({
+            ok: true,
+            usuario: usuarioDB,
+            message: 'user loggin correct',
+            //url: "http://localhost:3000/features",
+        })
+
     })
 });
 
