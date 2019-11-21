@@ -292,12 +292,12 @@ app.post('/login', function(req, res) {
 });
 
 
-app.post('/regist', function(req, res) {
+app.post('/regist', [isEmailValid], function(req, res) {
 
 
 
     let body = req.body;
-    console.log(body)
+    //console.log(body)
     let usuario = new Usuario({
         _id: body.nombre,
         email: body.email,
@@ -420,25 +420,116 @@ app.post('/n-back', function(req, res) {
     let body = req.body;
 
     let usuario = new NBack({
-        _id: body.id,
+        id: body.id,
         exp: body.experiment,
+        dateExp: body.lastExp
     });
 
     //console.log(req.body)
     usuario.save((err, usuarioDB) => {
         if (err) {
-            NBack.findByIdAndUpdate(body.id, {
-                user: body.id,
-                exp: body.experiment,
-            }, { new: true, runValidators: true, useFindAndModify: false, context: 'query' }, (err, usuarioDB) => {
-                if (err) {
-                    console.log(err)
-                }
-            })
+            console.log(err)
         }
+
+        // if (err) {
+        //     NBack.findByIdAndUpdate(body.id, {
+        //         user: body.id,
+        //         exp: body.experiment,
+        //         dateExp : body.lastExp
+        //     }, { new: true, runValidators: true, useFindAndModify: false, context: 'query' }, (err, usuarioDB) => {
+        //         if (err) {
+        //             console.log(err)
+        //         }
+        //     })
+        // }
         res.json({
             ok: true,
         });
+    })
+});
+
+app.get('/time-to-nback', (req, res) => {
+
+    let id = req.get('id');
+    //let id = req.body.id;
+    console.log(id)
+        //console.log(req.params.id)
+    NBack.find({ id: id }, (err, usuarioDB) => {
+        if (err) {
+            console.log(err)
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'Usuario incorrecto'
+                },
+                message: 'Usuario incorrecto'
+            });
+        }
+
+        if (!usuarioDB) {
+            console.log(err)
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'Usuario incorrecto'
+                },
+                message: 'Usuario incorrecto'
+            });
+        }
+
+        let date = '';
+        var size = Object.keys(usuarioDB).length;
+        console.log(size)
+        if (size >= 1) {
+            date = (usuarioDB[size - 1])
+        } else {
+            date = (usuarioDB[size])
+        }
+
+        res.json({ date, size });
+
+    })
+});
+
+app.get('/time-to-raven', (req, res) => {
+
+    let id = req.get('id');
+    //let id = req.body.id;
+    console.log(id)
+        //console.log(req.params.id)
+    Raven.find({ id: id }, (err, usuarioDB) => {
+        if (err) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'Usuario incorrecto'
+                },
+                message: 'Usuario incorrecto'
+            });
+        }
+
+        if (!usuarioDB) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'Usuario incorrecto'
+                },
+                message: 'Usuario incorrecto'
+            });
+        }
+
+
+        let date = '';
+        var size = Object.keys(usuarioDB).length;
+        console.log(size)
+        if (size >= 1) {
+            date = (usuarioDB[size - 1])
+        } else {
+            date = (usuarioDB[size])
+        }
+
+        res.json({ date, size });
+
     })
 });
 
@@ -448,22 +539,27 @@ app.post('/raven', function(req, res) {
     let body = req.body;
 
     let usuario = new Raven({
-        _id: body.id,
+        id: body.id,
         exp: body.experiment,
+        dateExp: body.lastExp
     });
 
     //console.log(req.body)
     usuario.save((err, usuarioDB) => {
         if (err) {
-            Raven.findByIdAndUpdate(body.id, {
-                user: body.id,
-                exp: body.experiment,
-            }, { new: true, runValidators: true, useFindAndModify: false, context: 'query' }, (err, usuarioDB) => {
-                if (err) {
-                    console.log(err)
-                }
-            })
+            console.log(err)
         }
+        // if (err) {
+        //     Raven.findByIdAndUpdate(body.id, {
+        //         user: body.id,
+        //         exp: body.experiment,
+        //         dateExp: body.lastExp
+        //     }, { new: true, runValidators: true, useFindAndModify: false, context: 'query' }, (err, usuarioDB) => {
+        //         if (err) {
+        //             console.log(err)
+        //         }
+        //     })
+        // }
         res.json({
             ok: true,
         });
@@ -472,11 +568,11 @@ app.post('/raven', function(req, res) {
 
 app.get('/n-back-Rsults', [verificarToken, verificarSummonerName], function(req, res) {
 
-    let id = req.get('_id');
+    let id = req.get('id');
     console.log(id)
 
 
-    NBack.findOne({ _id: id }, (err, usuarioDB) => {
+    NBack.findOne({ id: id }, (err, usuarioDB) => {
         if (err) {
             return res.status(400).json({
                 ok: false,

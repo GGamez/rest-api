@@ -12,10 +12,12 @@ let nBackSchema = new Schema({
     exp: {
 
     },
-    _id: {
+    id: {
         type: String,
-        unique: true,
 
+    },
+    dateExp: {
+        type: String,
     }
 });
 
