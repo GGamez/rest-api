@@ -8,18 +8,19 @@ let rolesValidos = {
 
 let Schema = mongoose.Schema;
 
-let ravenSchema = new Schema({
-    exp: [Object],
-    id: {
-        type: String,
+let collarSchema = new Schema({
+    nombre: String,
+    precio: Number,
+    coll: String,
+    coleccion: String,
+    unidades: Number,
+    vendidos: Number
+});
 
 
-    },
-    dateExp: {
-        type: String,
-    }
-
-
+let collSchema = new Schema({
+    nombre: String,
+    coleccion: [collarSchema]
 });
 
 
@@ -30,6 +31,7 @@ let ravenSchema = new Schema({
 //     return userObject;
 // }
 
-ravenSchema.plugin(uniqueValidator, { message: '{PATH} debe ser único' });
+collSchema.plugin(uniqueValidator, { message: '{PATH} debe ser único' });
 
-module.exports = mongoose.model('Raven', ravenSchema);
+
+module.exports = mongoose.model('Coleccion', collSchema);

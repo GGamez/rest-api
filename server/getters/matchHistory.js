@@ -10,7 +10,7 @@ const req = require('request');
 
 const async = require('async');
 
-const { iterator1 } = require('./processAndSave');
+const { iterator1, noIteratior } = require('./processAndSave');
 
 const Usuario = require('../models/usuario');
 
@@ -135,10 +135,10 @@ const getTeamLinks = function(summonerName) {
 
     return new Promise((resolve, reject) => {
         var options = {};
-        needle.get('https://lol.gamepedia.com/index.php?title=Special:CargoExport&tables=MatchScheduleGame%3DMSG%2CMatchSchedule%3DMS&join+on=MSG.UniqueMatch%3DMS.UniqueMatch&fields=MSG.MatchHistory%3DMH&where=MSG.MatchHistory+IS+NOT+NULL+AND+MS.team1+%3D+%22Cream+Esports%22+OR+MS.Team2%3D%22Cream+Esports%22&order+by=MS.DateTime_UTC+DESC&limit=100&format=json', options, function(error, response, body) {
+        needle.get('https://lol.gamepedia.com/index.php?title=Special:CargoExport&tables=MatchScheduleGame%3DMSG%2C+MatchSchedule%3DMS&join+on=MSG.UniqueMatch%3DMS.UniqueMatch&fields=MSG.MatchHistory%3DMH&where=MS.Team1%3D%22Cream+Esports+Mexico%22+AND+MSG.MatchHistory+IS+NOT+NULL+OR+MS.Team2%3D%22Cream+Esports+Mexico%22+AND+MSG.MatchHistory+IS+NOT+NULL&order+by=MS.DateTime_UTC+DESC&limit=2000&format=json', options, function(error, response, body) {
                 urls = {...body }
                     //let URLs = printTeams(urls, argv.summonerName);
-                    //console.log(urls)
+                console.log(response)
                     //callback(urls);
                     // async.eachSeries(URLs, iterator1, function(err) {
                     //     // global callback for async.mapSeries
@@ -161,14 +161,14 @@ const getTeamLinks = function(summonerName) {
 function printTeams(urlList, teamName) {
 
     urls = []
-
+    let counter = 0;
     let max = 100;
     let limit = process.env.limit;
     for (matches in urlList) {
 
-        if (!urlList[matches]) {
-            return
-        }
+        counter += 1;
+
+
         let asd = urlList[matches].MH
             //console.log(asd)
         let gameHash = (urlo.parse(asd).hash).split('?')[1].split('&')[0].split('=')[1];
@@ -179,11 +179,12 @@ function printTeams(urlList, teamName) {
         console.log(matchId)
             //console.log(idList[i])
         let url = {
-            url: "https://acs.leagueoflegends.com/v1/stats/game/" + server + "/" + matchId + "?gameHash=" + gameHash,
+            url: "https://acs.leagueoflegends.com/v1/stats/game/" + server + "/" + matchId + "/timeline?gameHash=" + gameHash,
             name: teamName,
             nmro: matches
         }
         urls.push(url);
+
 
 
 
@@ -216,11 +217,12 @@ const getAllTeams = function(summonerName) {
         //             })
 
         var options = {};
-        let urls = {};
+        //let urls = {};
 
         getTeamLinks(summonerName).then(urls => {
             //console.log(callback)
-            // console.log(URLs)
+            console.log(urls)
+                //noIteratior();
             async.eachSeries(urls, iterator1, function(err) {
                 // global callback for async.mapSeries
                 if (err) {

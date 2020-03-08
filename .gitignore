@@ -2,3 +2,4 @@ node_modules/
 server/arguments/
 server/root.key/
 server/app.yaml/
+server/jsons/

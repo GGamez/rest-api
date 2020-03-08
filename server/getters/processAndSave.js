@@ -24,7 +24,7 @@ function processAndSaveInDB(URL, body) {
     var finalJs = [];
     var options = {};
     let player = 0;
-
+    //console.log(body)
 
     try {
         for (i of body.participants) {
@@ -60,7 +60,7 @@ function processAndSaveInDB(URL, body) {
 
             } catch (e) {
                 console.log('no body')
-                sleep.msleep(720);
+                sleep.msleep(3020);
             }
             try {
                 for (i of body.participants) {
@@ -73,7 +73,7 @@ function processAndSaveInDB(URL, body) {
                     rival += 1;
                 }
             } catch (e) {
-                console.log('no body')
+                console.log('no bodya')
                 sleep.msleep(720);
             }
 
@@ -88,15 +88,15 @@ function processAndSaveInDB(URL, body) {
         finale = Object.assign({ _id: body.gameId }, {...finalJs });
         //saveMatch(finalJs, URL.name, URL.nmro);
         if (finale != undefined || finalJs != undefined) {
-            saveMatchNested(finale, finalJs, URL.name);
+            saveMatchNested(finale, finalJs, 'URL');
             console.log('inserted' + URL.nmro)
         }
 
-        sleep.msleep(720);
+        sleep.msleep(1520);
 
     } catch (e) {
-        console.log('not inserted')
-        sleep.msleep(720);
+        console.log('not inserted', e)
+        sleep.msleep(1520);
     }
 
 
@@ -109,9 +109,10 @@ function iterator1(URL, done) {
     let player = 0;
 
 
-    needle.get(URL.url, options, function(error, response, body) {
+    needle.get(URL.url, options, async function(error, response, body) {
         if (error) { return done(error) };
-        //console.log(body)
+        console.log(body)
+        await sleep.msleep(1520);
         //console.log(body.gameId)
         processAndSaveInDB(URL, body)
         done(null);
@@ -119,6 +120,19 @@ function iterator1(URL, done) {
 
 
 };
+
+function noIteratior() {
+    var finalJs = [];
+    var options = {};
+    let player = 0;
+    needle.get('https://acs.leagueoflegends.com/v1/stats/game/ESPORTSTMNT01/1305999?gameHash=fc3aefc24290875d', options, function(error, response, body) {
+        if (error) { return done(error) };
+        finalJs = require('../jsons/matches/INF_ZWN_8tva')
+        console.log(body)
+            //console.log(body.gameId)
+        processAndSaveInDB(URL, finalJs)
+    });
+}
 
 
 
@@ -182,5 +196,6 @@ const flattenObject = (obj) => {
 }
 
 module.exports = {
-    iterator1
+    iterator1,
+    noIteratior
 }

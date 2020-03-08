@@ -8,8 +8,49 @@ let rolesValidos = {
 
 let Schema = mongoose.Schema;
 
+let raven = new Schema({
+    exp: [Object],
+    id: {
+        type: String,
+    },
+    dateExp: {
+        type: String,
+    }
+});
+
+
+let stroop = new Schema({
+    exp: [Object],
+    id: {
+        type: String,
+    },
+    dateExp: {
+        type: String,
+    }
+});
+
+
+let nBack = new Schema({
+    exp: [Object],
+    id: {
+        type: String,
+    },
+    dateExp: {
+        type: String,
+    }
+});
+
+
+let testsSchema = new Schema({
+    nombre: String,
+    raven: [raven],
+    stroop: [stroop],
+    nBack: [nBack]
+});
+
+
 let usuarioSchema = new Schema({
-    _id: {
+    nombre: {
         type: String,
         unique: true,
         required: [true, 'El nombre es necesario']
@@ -47,9 +88,19 @@ let usuarioSchema = new Schema({
     summonerId: {
         type: String,
         default: 'false'
+    },
+    tests: {
+        raven: [raven],
+        nBack: [nBack],
+        stroop: [stroop]
+
     }
 
 });
+
+
+
+
 
 usuarioSchema.methods.toJSON = function() {
     let user = this;

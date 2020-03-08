@@ -37,7 +37,7 @@ switch (comando) {
 
     case 'userMatches':
         // let url = "https://acs.leagueoflegends.com/v1/stats/game/ESPORTSTMNT03/1020768?gameHash=6ddbb6e99fba1528"
-        //let gameHash = (url.parse(url).query).split('=')[1];
+        // let gameHash = (url.parse(url).query).split('=')[1];
         // let server = (url.parse(url).pathname).split('/')[4];
         // let gameId = (url.parse(url).pathname).split('/')[5];
 
