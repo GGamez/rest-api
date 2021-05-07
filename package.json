@@ -44,7 +44,7 @@
         "request-promise": "^4.2.5",
         "sleep": "^6.1.0",
         "stripe": "^8.14.0",
-        "underscore": "^1.9.2",
+        "underscore": "^1.12.1",
         "yargs": "^14.2.0"
     }
 }
